@@ -26,7 +26,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum', 'ensure_json_he
     Route::post('/change-pin', [RegisterUserController::class, 'changePin']);
 
     Route::controller(AccountsController::class)->group(function () {
-        Route::get('/balance', 'getBalance');
+        Route::post('/balance', 'getBalance');
         Route::post('/deposit', 'deposit');
         Route::post('/stop-cheque', 'stopCheque');
     });
