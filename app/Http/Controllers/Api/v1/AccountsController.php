@@ -47,7 +47,9 @@ class AccountsController extends Controller
         ]);
 
         //update the account balance
-        $account->balance += $request->amount;
+        $account->update([
+            'balance' => $account->balance + $request->amount,
+        ]);
 
         return response()->json([
             'message' => 'Money deposited successfully',
