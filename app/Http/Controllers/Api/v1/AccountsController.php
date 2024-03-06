@@ -62,12 +62,20 @@ class AccountsController extends Controller
     {
         $request->validate([
             'cheque_number' => 'required',
+            'user_id' => 'required',
         ]);
 
         //cheque model to get the cheque
-        $cheque = Cheque::where('user_id', $user_id)
+        $cheque = Cheque::where('user_id', $request->user_id)
             ->where('cheque_number', $request->cheque_number)
             ->first();
+            //check if the cheque exists or has been stopped
+        if (!$cheque || $cheque->status === 'stopped') {
+            return response()->json([
+                'message' => 'Invalid cheque number',
+            ], 404);
+        }
+        
 
         //stop the cheque
         $cheque->status = 'stopped';
