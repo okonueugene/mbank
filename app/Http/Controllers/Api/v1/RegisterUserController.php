@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterUserController extends Controller
 {
@@ -29,5 +30,29 @@ class RegisterUserController extends Controller
             'message' => 'User created successfully',
             'user' => $user,
         ], 201);
+    }
+
+    //change the pin
+    public function changePin(Request $request)
+    {
+        $request->validate([
+            'old_pin' => 'required',
+            'new_pin' => 'required',
+        ]);
+
+        $user = $request->user();
+
+        if (!password_verify($request->old_pin, $user->pin)) {
+            return response()->json([
+                'message' => 'Invalid old pin',
+            ], 401);
+        }
+
+        $user->pin = Hash::make($request->new_pin);
+        $user->save();
+
+        return response()->json([
+            'message' => 'Password changed successfully',
+        ]);
     }
 }
