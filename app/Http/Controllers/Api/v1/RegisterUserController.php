@@ -40,19 +40,20 @@ class RegisterUserController extends Controller
             'new_pin' => 'required',
         ]);
 
-        $user = $request->user();
+        $user = User::find($request->user_id);
 
-        if (!password_verify($request->old_pin, $user->pin)) {
+        if (!Hash::check($request->old_pin, $user->pin)) {
             return response()->json([
                 'message' => 'Invalid old pin',
-            ], 401);
+            ], 200);
         }
 
-        $user->pin = Hash::make($request->new_pin);
-        $user->save();
+        $user->update([
+            'pin' => Hash::make($request->new_pin),
+        ]);
 
         return response()->json([
-            'message' => 'Password changed successfully',
+            'message' => 'Pin changed successfully',
         ]);
     }
 }
