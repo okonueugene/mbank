@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\v1\AccountsController;
 use App\Http\Controllers\Api\v1\AuthenticationController;
 use App\Http\Controllers\Api\v1\RegisterUserController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +23,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['ensure_json_header']], functio
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum', 'ensure_json_header']], function () {
     Route::post('/logout', [AuthenticationController::class, 'logout']);
+    Route::post('/change-pin', [RegisterUserController::class, 'changePin']);
+
+    Route::controller(AccountsController::class)->group(function () {
+        Route::get('/balance', 'getBalance');
+        Route::post('/deposit', 'deposit');
+        Route::post('/stop-cheque', 'stopCheque');
+    });
 });
