@@ -64,12 +64,6 @@ class AccountsController extends Controller
             'cheque_number' => 'required',
         ]);
 
-        //check the user account balance
-        $user_id = $request->user()->id;
-
-        //account model to get the account balance
-        $account = Account::where('user_id', $user_id)->first();
-
         //cheque model to get the cheque
         $cheque = Cheque::where('user_id', $user_id)
             ->where('cheque_number', $request->cheque_number)
@@ -78,7 +72,7 @@ class AccountsController extends Controller
         //stop the cheque
         $cheque->status = 'stopped';
         $cheque->save();
-
+        
         return response()->json([
             'message' => 'Cheque stopped successfully',
         ]);

@@ -51,5 +51,9 @@ class ChequeSeeder extends Seeder
                 'status' => 'pending',
             ],
         ];
+
+        foreach ($cheques as $cheque) {
+            \App\Models\Cheque::create($cheque);
+        }
     }
 }
