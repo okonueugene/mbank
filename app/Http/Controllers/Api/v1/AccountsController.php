@@ -69,18 +69,17 @@ class AccountsController extends Controller
         $cheque = Cheque::where('user_id', $request->user_id)
             ->where('cheque_number', $request->cheque_number)
             ->first();
-            //check if the cheque exists or has been stopped
+        //check if the cheque exists or has been stopped
         if (!$cheque || $cheque->status === 'stopped') {
             return response()->json([
                 'message' => 'Invalid cheque number',
-            ], 404);
+            ], 200);
         }
-        
 
         //stop the cheque
         $cheque->status = 'stopped';
         $cheque->save();
-        
+
         return response()->json([
             'message' => 'Cheque stopped successfully',
         ]);
