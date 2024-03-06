@@ -29,10 +29,11 @@ class AccountsController extends Controller
     {
         $request->validate([
             'amount' => 'required',
+            'user_id' => 'required',
         ]);
 
         //check the user account balance
-        $user_id = $request->user()->id;
+        $user_id = $request->user_id;
 
         //account model to get the account balance
         $account = Account::where('user_id', $user_id)->first();
