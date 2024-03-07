@@ -57,6 +57,45 @@ class AccountsController extends Controller
         ]);
     }
 
+    //withdraw money
+    public function withdraw(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required',
+            'user_id' => 'required',
+        ]);
+
+        //check the user account balance
+        $user_id = $request->user_id;
+
+        //account model to get the account balance
+        $account = Account::where('user_id', $user_id)->first();
+
+        //check if the account has enough balance
+        if ($account->balance < $request->amount) {
+            return response()->json([
+                'message' => 'Insufficient balance',
+            ], 200);
+        }
+
+        //create a transaction
+        $transaction = Transaction::create([
+            'user_id' => $user_id,
+            'account_id' => $account->id,
+            'type' => 'withdrawal',
+            'amount' => $request->amount,
+        ]);
+
+        //update the account balance
+        $account->update([
+            'balance' => $account->balance - $request->amount,
+        ]);
+
+        return response()->json([
+            'message' => 'Money withdrawn successfully',
+        ]);
+    }
+
     //stop cheque
     public function stopCheque(Request $request)
     {

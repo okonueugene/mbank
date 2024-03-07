@@ -29,5 +29,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum', 'ensure_json_he
         Route::post('/balance', 'getBalance');
         Route::post('/deposit', 'deposit');
         Route::post('/stop-cheque', 'stopCheque');
+        Route::post('/withdraw', 'withdraw');
     });
 });
