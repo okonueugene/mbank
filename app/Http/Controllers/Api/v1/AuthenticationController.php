@@ -21,7 +21,7 @@ class AuthenticationController extends Controller
         if (!$user || !Hash::check($request->pin, $user->pin)) {
             return response()->json([
                 'message' => 'Invalid account number or pin',
-            ], 401);
+            ], 200);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;

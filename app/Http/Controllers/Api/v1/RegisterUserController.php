@@ -24,7 +24,7 @@ class RegisterUserController extends Controller
             'account_number' =>$accountNumber,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'pin' => bcrypt($request->pin),
+            'pin' => Hash::make($request->pin),
         ]);
 
         //create a new account for the user
