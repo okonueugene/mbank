@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\User;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -27,9 +28,9 @@ class RegisterUserController extends Controller
         ]);
 
         //create a new account for the user
-        $user->account()->create([
+        Account::create([
+            'user_id' => $user->id,
             'account_number' => $accountNumber,
-            'balance' => 0,
         ]);
 
         return response()->json([
