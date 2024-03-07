@@ -15,7 +15,7 @@ class RegisterUserController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'pin' => 'required',
+            'pin' => 'required | min:4',
         ]);
 
         $accountNumber = User::all()->count() + 1;
