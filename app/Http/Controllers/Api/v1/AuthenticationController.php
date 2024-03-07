@@ -35,10 +35,15 @@ class AuthenticationController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        //fetch the user using user_id
+        $user = User::find($request->user_id);
+
+        //revoke the user token
+        $user->tokens()->delete();
 
         return response()->json([
-            'message' => 'Logged out',
+            'message' => 'Logged out successfully',
         ]);
+
     }
 }

@@ -26,10 +26,16 @@ class RegisterUserController extends Controller
             'pin' => bcrypt($request->pin),
         ]);
 
+        //create a new account for the user
+        $user->account()->create([
+            'account_number' => $accountNumber,
+            'balance' => 0,
+        ]);
+
         return response()->json([
             'message' => 'User created successfully',
             'user' => $user,
-        ], 201);
+        ], 200);
     }
 
     //change the pin
